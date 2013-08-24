@@ -5,24 +5,22 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
+    @set 'result', 'blah'
     @get('playerHand').on('stand', @endRound, @)
 
   endRound: ->
-    if @get('playerHand').scores()[0] > 21
-      console.log 'Player busts!'
+    result
+    playerScore = @get('playerHand').scores()
+    dealerScore = @get('dealerHand').scores()
+    if @get('playerHand').scores() > 21
+      result = 'Player busts!'
     else
-      @get('dealerHand').dealerTurn()
-    if @get('dealerHand').scores()[0] > 21
-      console.log 'Dealer busts!'
-    else if @get('dealerHand').scores()[0] > @get('playerHand').scores()[0]
-      console.log 'Player loses!'
-    else
-      console.log 'Player wins!'
-    alert('Next game')
-    @trigger('gameOver')
-
-      # console.log @get('dealerHand')
-      # for card in @get('dealerHand')
-      #   if !card.get('revealed')
-      #     card.flip()
-      # console.log @get('dealerHand').scores()
+      @get('dealerHand').dealerTurn(playerScore)
+      if @get('dealerHand').scores() > 21
+        result = 'Dealer busts!'
+      else if @get('dealerHand').scores() > @get('playerHand').scores()
+        result = 'Player loses!'
+      else
+        result = 'Player wins!'
+    @set 'result', result
+    @trigger('gameOver', @)
