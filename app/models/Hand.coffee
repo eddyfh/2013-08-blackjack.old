@@ -6,6 +6,15 @@ class window.Hand extends Backbone.Collection
 
   hit: -> @add(@deck.pop()).last()
 
+  stand: ->
+    @trigger('stand')
+
+  dealerTurn: ->
+    @at(0).flip()
+    @hit() while @scores()[0] < 17
+      #   if !card.get('revealed')
+      #     card.flip()
+
   scores: ->
     # The scores are an array of potential scores.
     # Usually, that array contains one element. That is the only score.
@@ -17,3 +26,5 @@ class window.Hand extends Backbone.Collection
       score + if card.get 'revealed' then card.get 'value' else 0
     , 0
     if hasAce then [score, score + 10] else [score]
+
+# create way to go to next round
