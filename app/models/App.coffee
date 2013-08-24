@@ -13,14 +13,17 @@ class window.App extends Backbone.Model
     playerScore = @get('playerHand').scores()
     dealerScore = @get('dealerHand').scores()
     if @get('playerHand').scores() > 21
-      result = 'Player busts!'
+      result = 'Player loses!'
     else
       @get('dealerHand').dealerTurn(playerScore)
       if @get('dealerHand').scores() > 21
-        result = 'Dealer busts!'
+        result = 'Player wins!'
       else if @get('dealerHand').scores() > @get('playerHand').scores()
         result = 'Player loses!'
       else
         result = 'Player wins!'
     @set 'result', result
     @trigger('gameOver', @)
+
+  gameResult: ->
+    @get('result')
