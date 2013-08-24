@@ -2,11 +2,7 @@
 class window.App extends Backbone.Model
 
   initialize: ->
-    @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
-    @set 'result', 'blah'
-    @get('playerHand').on('stand', @endRound, @)
+    @newGame()
 
   endRound: ->
     result
@@ -22,8 +18,13 @@ class window.App extends Backbone.Model
         result = 'Player loses!'
       else
         result = 'Player wins!'
-    @set 'result', result
-    @trigger('gameOver', @)
+    if (confirm result)
+      @newGame()
 
-  gameResult: ->
-    @get('result')
+  newGame: ->
+    @set 'deck', deck = new Deck()
+    @set 'playerHand', deck.dealPlayer()
+    @set 'dealerHand', deck.dealDealer()
+    @trigger 'render', @
+    @get('playerHand').on('stand', @endRound, @)
+
