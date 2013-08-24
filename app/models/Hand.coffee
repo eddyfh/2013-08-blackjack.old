@@ -5,8 +5,9 @@ class window.Hand extends Backbone.Collection
   initialize: (array, @deck, @isDealer) ->
 
   hit: ->
-    @add(@deck.pop()).last()
+    result =  @add(@deck.pop()).last()
     if @.scores() > 21 then @stand()
+    result
 
   stand: ->
     @trigger('stand', @)
@@ -22,6 +23,7 @@ class window.Hand extends Backbone.Collection
     hasAce = @reduce (memo, card) ->
       memo or card.get('value') is 1
     , false
+
     score = @reduce (score, card) ->
       score + if card.get 'revealed' then card.get 'value' else 0
     , 0
