@@ -6,7 +6,7 @@ class window.Hand extends Backbone.Collection
 
   hit: ->
     result =  @add(@deck.pop()).last()
-    if @.scores() > 21 then @stand()
+    if @scores() > 20 then @stand()
     result
 
   stand: ->

@@ -13,5 +13,10 @@ class window.HandView extends Backbone.View
     @$el.children().detach()
     @$el.html @template @collection
     @$el.append @collection.map (card) ->
-      new CardView(model: card).$el
+      cardView = new CardView(model: card).$el
+      if (card.get('suitName') == 'Spades') then cardView.addClass('spades')
+      if (card.get('suitName') == 'Clubs') then cardView.addClass('clubs')
+      if (card.get('suitName') == 'Diamonds') then cardView.addClass('diamonds')
+      if (card.get('suitName') == 'Hearts') then cardView.addClass('hearts')
+      cardView
     @$('.score').text @collection.scores()

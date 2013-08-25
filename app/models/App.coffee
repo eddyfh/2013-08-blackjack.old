@@ -5,6 +5,13 @@ class window.App extends Backbone.Model
     @set 'wallet', 100
     @newGame()
 
+  checkBlackJack: ->
+    if @get('playerHand').scores() == 21
+      alert 'BLACK JACK!'
+      @set 'wallet', (@get 'wallet')+5
+      @endRound()
+
+
 
   endRound: ->
     playerScore = @get('playerHand').scores()
@@ -35,4 +42,5 @@ class window.App extends Backbone.Model
     @set 'dealerHand', deck.dealDealer()
     @trigger 'render', @
     @get('playerHand').on('stand', @endRound, @)
+    @checkBlackJack()
 
